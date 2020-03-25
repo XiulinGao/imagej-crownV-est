@@ -6,3 +6,6 @@
 # os stuff
 *.DS_Store
 .directory
+
+# other
+*.png
