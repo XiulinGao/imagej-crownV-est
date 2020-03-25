@@ -1,12 +1,5 @@
 #crownv-estimation.R
 ## script used for estimating tree crown volume
-## procedure as following:
-##1. manually define the contour and vertical axis of each half of a crown using ImageJ 
-## by polygon selection, and save the coordinates of vertices of the polygon. scale set
-##2. calculate area and centroid of each of the non-self-intersecting closed polygon  
-##3. estimating volume based on Pappus's centroid theorem by rotating the lamina
-## around the vertical axis, average two for each image and then average four
-## for each tree (4 images taken from cardinal directions)
 
 library(stringr)
 library(dplyr)
@@ -116,4 +109,4 @@ vol_est <- vol %>% select(polyid, poly.pst, image.id, time.taken, v.est) %>%
   group_by(image.id, time.taken) %>% 
   summarise(vol.ave = mean(v.est, na.rm = TRUE))
   
-
+rm("all_coords", "vaxis_x", "vol", "polyn")
