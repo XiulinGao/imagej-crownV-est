@@ -4,6 +4,12 @@
 library(stringr)
 library(dplyr)
 
+tree_id <- read.csv("../data/image-tree-match.csv", stringsAsFactors = FALSE,
+                    na.strings = c(" ")) #bad naming, need to convert to charactor
+
+tree_id$image.id <- as.character(tree_id$image.id)
+tree_id$tree.id <- as.character(tree_id$tree.id)
+
 read_coord_file <- function(filename) {
   image.id <- str_sub(filename, 16, 19)  #image id that will be used to refer back to tree
   poly.pst <- str_sub(filename, -5, -5) # polygon position relative to vertical axis
@@ -105,8 +111,14 @@ vol$v.est <- sapply(vol$poly.pst, estimate_volume)
 
 #average volume for each image 
 
-vol_est <- vol %>% select(polyid, poly.pst, image.id, time.taken, v.est) %>% 
+vol <- vol %>% select(polyid, poly.pst, image.id, time.taken, v.est) %>% 
   group_by(image.id, time.taken) %>% 
   summarise(vol.ave = mean(v.est, na.rm = TRUE))
+
+#match to tree
+ crown_vol <- vol %>% left_join(tree_id, by = "image.id") %>% 
+   group_by(tree.id, time.taken) %>% #image was taken for the same tree at different time
+   summarise(crown.vol = mean(vol.ave, na.rm = TRUE))
+
   
-rm("all_coords", "vaxis_x", "vol", "polyn")
+rm("all_coords", "vaxis_x", "vol", "polyn", "tree_id")
