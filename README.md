@@ -13,7 +13,7 @@ Procedure
 
 1. Manually define the contour and vertical axis of each half of a tree crown using ImageJ by polygon selection, and save the coordinates of vertices of the polygon. Scale should be calibrated beforehand.
 
-![Fig.1] (/Users/gaoxiulin/fig1.png)
+![image](/Users/gaoxiulin/fig1.png)
 
 
 2. Automatically calculate area and centroid (x, y) for each of the non-self-intersecting closed polygon in R.  See [ref](https://www.seas.upenn.edu/~sys502/extra_materials/Polygon%20Area%20and%20Centroid.pdf) 
